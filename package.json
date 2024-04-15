@@ -1,0 +1,21 @@
+{
+  "name": "wetube",
+  "version": "1.0.0",
+  "description": "The best way to watch videos.",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KWONZIPSA/wetube-reloaded.git"
+  },
+  "scripts": {
+    "win": "node index.js"
+  },
+  "author": "KZS",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/KWONZIPSA/wetube-reloaded/issues"
+  },
+  "homepage": "https://github.com/KWONZIPSA/wetube-reloaded#readme",
+  "dependencies": {
+    "express": "^4.19.2"
+  }
+}
