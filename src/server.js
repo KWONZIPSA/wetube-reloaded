@@ -1,10 +1,12 @@
 import express from "express";
+import morgan from "morgan";
 
 const PORT = 4000;
 
 const app = express();
+const logger = morgan("dev"); // 스크립트 이름(여기서는 dev)쓰는 방식, combined 방식, common, short, tiny등이 있음.
 
-const looger = (req, res, next) => {
+const methodLogger = (req, res, next) => {
   console.log(`${req.method} ${req.url}`);
   // return res.send("lalal"); > 이래버리면 리턴으로 끝나서 next가 실행 안됨.
   next();
@@ -27,7 +29,8 @@ const handleProtected = (req, res) => {
   return res.send("Welcome to the private lounge.");
 };
 
-app.use(looger, privateMiddleware); //use가 get보다 먼저 나와야하는데, 모든 라우트에서 작동하게 되도록.
+app.use(logger); //morgan을 쓰면 보다 정교한 로깅이 가능.
+app.use(methodLogger, privateMiddleware); //use가 get보다 먼저 나와야하는데, 모든 라우트에서 작동하게 되도록.
 
 app.get("/", handleHome);
 app.get("/protected", handleProtected);
