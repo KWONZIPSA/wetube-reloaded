@@ -20,13 +20,17 @@
 /search -> Search
 
 [users 라우터]
-/users/edit-> Edit User
-/users/delete -> Delete uUser
+/users/:id-> See User
+/users/logout -> Log Out
+/users/edit -> Edit My Profile
+/users/delete -> Delete My Profile
 
 [videos 라우터]
-/videos/watch -> Watch Video
-/videos/edit -> Edit Video
-/videos/delete -> Delete Video
+/videos/:id -> See Video //:id는 파라미터
+/videos/:id/edit -> Edit Video
+/videos/:id/delete -> Delete Video
+/videos/upload -> Upload Video
+코멘트는 나중에~
 /videos/comments -> Comment on a video
 /videos/comments/delete -> Delete a comment of a videos
 
