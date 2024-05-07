@@ -12,6 +12,7 @@ app.use(logger); //morgan을 쓰면 보다 정교한 로깅이 가능.
 
 app.set("view engine", "pug");
 app.set("views", process.cwd() + "/src/views");
+app.use(express.urlencoded({ extended: true })); //먼저 와야 나머지 미들웨어가 form을 인식함.
 app.use("/", globalRouter);
 app.use("/videos", videoRouter);
 app.use("/users", userRouter);
