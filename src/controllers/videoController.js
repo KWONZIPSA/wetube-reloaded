@@ -24,9 +24,10 @@ export const home = async (req, res) => {
   const videos = await Video.find({});
   return res.render("home", { pageTitle: "Home", videos });
 };
-export const watch = (req, res) => {
+export const watch = async (req, res) => {
   const { id } = req.params;
-  return res.render("watch", { pageTitle: `Watching` });
+  const video = await Video.findById(id);
+  return res.render("watch", { pageTitle: video.title, video });
 };
 export const getEdit = (req, res) => {
   const { id } = req.params;
@@ -43,17 +44,19 @@ export const getUpload = (req, res) => {
 export const postUpload = async (req, res) => {
   const { title, description, hashtags } = req.body;
   //const video = new Video({ }) ~~~   await video.save(); 이렇게 해도 되고 아래 처럼 await Video.create({});라고 해도 돼.
-  await Video.create({
-    title: title, //앞의 title은 스키마의 title, 뒤의 title은 req.body 안의 title 의미. 이름이 같아 축약형으로 title이라고 쓸 수 있음.
-    description,
-    createdAt: Date.now(),
-    hashtags: hashtags.split(",").map((word) => `#${word}`), //split 구분자로 잘라서 어레이로 만들어줌. map은 단어에 뭔가를 붙여줌.
-    meta: {
-      views: 0,
-      rating: 0,
-    },
-    // String 항목은 숫자로 넣어도 문자로 치환, 숫자항목은 문자를 넣으면 없는 값으로 생성해서 오류를 최소화함
-  });
+  try {
+    await Video.create({
+      title: title, //앞의 title은 스키마의 title, 뒤의 title은 req.body 안의 title 의미. 이름이 같아 축약형으로 title이라고 쓸 수 있음.
+      description,
+      hashtags: hashtags.split(",").map((word) => `#${word}`), //split 구분자로 잘라서 어레이로 만들어줌. map은 단어에 뭔가를 붙여줌.
+      // String 항목은 숫자로 넣어도 문자로 치환, 숫자항목은 문자를 넣으면 없는 값으로 생성해서 오류를 최소화함
+    });
 
-  return res.redirect("/");
+    return res.redirect("/");
+  } catch (error) {
+    return res.render("upload", {
+      pageTitle: "Upload Video",
+      errorMessage: error._message,
+    });
+  }
 };
